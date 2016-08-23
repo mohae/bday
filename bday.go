@@ -32,12 +32,14 @@ func collisionN(p, x, y float64) (n int64, d float64, err error) {
 	if p <= 0 {
 		return 0, 0, fmt.Errorf("%s: p must be > 0", errPrefix)
 	}
-	if x <= 0 {
+	if x <= 0.0 {
 		return 0, 0, fmt.Errorf("%s: base must be > 0", errPrefix)
 	}
-	if y == 0 {
+	if y == 0.0 {
 		return 0, 0, fmt.Errorf("%s: if the base is to be used as the upper-end of the range, use 1 as the value of the exponent", errPrefix)
 	}
 	d = math.Pow(x, y)
-	return int64(math.Sqrt(2*d*(math.Log((1 / (1 - p))))) + .5), d, nil
+	// We add 1 because int conversion truncates and if there is a decimal portion
+	// it should be the next greater int as minimum n is a whole number.
+	return int64(math.Sqrt(2*d*(math.Log((1 / (1 - p))))) + 1.0), d, nil
 }
