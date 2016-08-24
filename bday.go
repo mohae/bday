@@ -43,3 +43,22 @@ func collisionN(p, x, y float64) (n int64, d float64, err error) {
 	// it should be the next greater int as minimum n is a whole number.
 	return int64(math.Sqrt(2*d*(math.Log((1 / (1 - p))))) + 1.0), d, nil
 }
+
+// https://math.dartmouth.edu/archive/m19w03/public_html/Section6-5.pdf
+// Theorem 6.15
+//In hashing n items into a hash table with k locations, the expected number
+// of collisions is: n − k + k(1 − 1/k)^n
+func nCollisions(n, x, y float64) (c, d float64, err error) {
+	errPrefix := "can't calculate the expected number of collisions when hashing n items into d slots"
+	if n <= 0 {
+		return 0, 0, fmt.Errorf("%s: n must be > 0", errPrefix)
+	}
+	if x <= 0 {
+		return 0, 0, fmt.Errorf("%s: base must be > 0", errPrefix)
+	}
+	if y == 0 {
+		return 0, 0, fmt.Errorf("%s: if the base is to be used as the number of slots, use 1 as the value of the exponent", errPrefix)
+	}
+	d = math.Pow(x, y)
+	return n - d + (d * math.Pow(1-(1.0/d), n)), d, nil
+}

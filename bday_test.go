@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestCollisionP(t *testing.T) {
 	tests := []struct {
@@ -83,6 +81,53 @@ func TestCollisionN(t *testing.T) {
 		}
 		if n != test.n {
 			t.Errorf("%d n: got %d; want %d", i, n, test.n)
+		}
+	}
+}
+
+func TestNCollisions(t *testing.T) {
+	tests := []struct {
+		n, x, y, c, d float64
+		err           string
+	}{
+		{0, 0, 0, 0, 0, "can't calculate the expected number of collisions when hashing n items into d slots: n must be > 0"},
+		{0, 1, 0, 0, 0, "can't calculate the expected number of collisions when hashing n items into d slots: n must be > 0"},
+		{1, 0, 0, 0, 0, "can't calculate the expected number of collisions when hashing n items into d slots: base must be > 0"},
+		{1, 1, 0, 0, 0, "can't calculate the expected number of collisions when hashing n items into d slots: if the base is to be used as the number of slots, use 1 as the value of the exponent"},
+		{1, 10, 1, 0, 10, ""},
+
+		{2, 10, 1, .1, 10, ""},
+		{5, 10, 1, .9049, 10, ""},
+		{1, 10, 2, 0, 100, ""},
+		{2, 10, 2, .0099, 100, ""},
+		{10, 10, 2, .4382, 100, ""},
+
+		{20, 10, 2, 1.7906, 100, ""},
+		{25, 10, 2, 2.7821, 100, ""},
+		{10, 10, 3, .0448, 1000, ""},
+		{20, 10, 3, .1888, 1000, ""},
+		{50, 10, 3, 1.2056, 1000, ""},
+
+		{100, 10, 3, 4.7921, 1000, ""},
+	}
+	for i, test := range tests {
+		c, d, err := nCollisions(test.n, test.x, test.y)
+		if err != nil {
+			if err.Error() != test.err {
+				t.Errorf("%d: got %q; want %q", i, err, test.err)
+			}
+			continue
+		}
+		if test.err != "" {
+			t.Errorf("%d: got no error; want %q; ", i, test.err)
+			continue
+		}
+		if int(d) != int(test.d) {
+			t.Errorf("%d d: got %d; want %d", i, int(d), int(test.d))
+		}
+		// just check up to ten thousandths
+		if int(c*1000.0) != int(test.c*1000.0) {
+			t.Errorf("%d: %g items in %g slots:: got %g; want %g", i, test.n, d, c, test.c)
 		}
 	}
 }
