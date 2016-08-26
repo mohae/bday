@@ -38,20 +38,25 @@ func realMain() int {
 		return 1
 	}
 	// either the probability or the number of random values must be passed.
-	if int64(p) == 0 && n == 0 {
-		fmt.Fprintf(os.Stderr, "either -p or -n must be specified\n")
+	if int64(p) <= 0 && n <= 0 {
+		fmt.Fprintf(os.Stderr, "either -p or -n must be specified and > 0\n")
 		return printHelpSuggestion()
 	}
-	if p > 0 && n != 0 {
+	if p > 0 && n > 0 {
 		fmt.Fprintf(os.Stderr, "-p and -n are mutually exclusive, only one can be specified\n")
 		return printHelpSuggestion()
 	}
-	if x == 0 {
+	if x <= 0 {
 		fmt.Fprintf(os.Stderr, "the base, -x, must be > 0\n")
 		return printHelpSuggestion()
 	}
-	if n == 0 && c {
-		fmt.Fprintf(os.Stderr, "collision estimates can only be done when -n is provided\n")
+	// even though y defaults to 1; make sure it wasn't set to an invalid number.
+	if y <= 0 {
+		fmt.Fprintf(os.Stderr, "the exponent, -y, must be >= 1\n")
+		return printHelpSuggestion()
+	}
+	if n <= 0 && c {
+		fmt.Fprintf(os.Stderr, "collision estimates can only be done when -n is provided and > 0\n")
 		return printHelpSuggestion()
 	}
 	if n > 0 {
