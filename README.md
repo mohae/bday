@@ -8,13 +8,13 @@ For estimating the probability of collision for a given number of elements being
 `-n` estimates the probability of at least two elements colliding, _p(n;d)_, when inserting _n_ elements into an array, _d_.  
 
     $ bday -n 10 -x 365
-	$ The probability that 10 elements for 365 slots collide is: 11.614024.
+	$ The probability of at least two elements colliding when hashing 10 elements into a 365 element array is 11.614024%.
 
 ### Number of elements for a given probability of collision.
 `-p` estimates the number of elements, _n_, that need to be drawn from a set, _d_ (_x^y_), for a collision to occur given a probability, _p_.
 
     $ bday -p 11.6 -x 365
-	$ 10 elements are needed to have a of 11.6000% chance of collision for 365 slots.
+	$ 10 elements are needed to have a of 11.6000% chance of 2 elements colliding when hashing into a 365 element array.
 
 ### Number of collisions when inserting n elements.
 Use the `-c` flag in conjunction with the `-n` flag to calculate the expected number of collisions when hashing _n_ elements into _d_ slots.  This uses the __Theorem 6.15__ from https://math.dartmouth.edu/archive/m19w03/public_html/Section6-5.pdf.

@@ -75,7 +75,7 @@ func realMain() int {
 			fmt.Fprintf(os.Stderr, "error calculating collision probability: %s\n", err)
 			return 1
 		}
-		fmt.Printf("The probability that %g elements for %g slots collide is: %f\n", n, d, prob*100.0)
+		fmt.Printf("The probability at least two elements colliding when hashing %g elements into a %g element array is %f%%.\n", n, d, prob*100.0)
 		return 0
 	}
 	// calculate the number of elements needed for a given collision probability
@@ -84,7 +84,7 @@ func realMain() int {
 		fmt.Fprintf(os.Stderr, "error calculating number of elements needed for a given collision probability: %s\n", err)
 		return 1
 	}
-	fmt.Printf("%g elements are needed to have a %f probability of collision for %g slots\n", float64(n), p/100.0, d)
+	fmt.Printf("%g elements are needed to have a %f%% chance of 2 elements colliding when hashing into a %g element array.\n", float64(n), p, d)
 	return 0
 }
 
