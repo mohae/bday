@@ -37,14 +37,14 @@ func realMain() int {
 		usage()
 		return 1
 	}
-	// either the probability or the number of random values must be passed.
-	if int64(p) <= 0 && n <= 0 {
-		fmt.Fprintf(os.Stderr, "either -p or -n must be specified and > 0\n")
-		return printHelpSuggestion()
-	}
 	if p > 0 && n > 0 {
 		fmt.Fprintf(os.Stderr, "-p and -n are mutually exclusive, only one can be specified\n")
 		return printHelpSuggestion()
+	}
+	// if enither p or n is passed, assume that we are calculating the probability
+	// of collision for 2 elements within the range specified by x^y
+	if int64(p) <= 0 && n <= 1 {
+		n = 2
 	}
 	if x <= 0 {
 		fmt.Fprintf(os.Stderr, "the base, -x, must be > 0\n")

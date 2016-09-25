@@ -3,7 +3,11 @@ Performs estimates related to hashing collisions and probabilities.
 
 For estimating the probability of collision for a given number of elements being inserted into an array with _x^y_ elements, the birthday paradox is used.
 
+Only the `-x` flag is required.
+
 ## Calculations
+If neither `-n` nor `-p` are specified, or if `n <= 1`; the probability of two elements colliding will be calculated; i.e. `n == 2`.
+
 ### Probability of collision for n elements.
 `-n` estimates the probability of at least two elements colliding, _p(n;d)_, when inserting _n_ elements into an array, _d_.  
 
