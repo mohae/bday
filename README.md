@@ -1,4 +1,5 @@
 # bday
+[![Build Status](https://travis-ci.org/mohae/bday.png)](https://travis-ci.org/mohae/bday)
 Performs estimates related to hashing collisions and probabilities.  
 
 For estimating the probability of collision for a given number of elements being inserted into an array with _x^y_ elements, the birthday paradox is used.
